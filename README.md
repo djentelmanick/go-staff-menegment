@@ -23,14 +23,38 @@
 
 ```
 staff-management/
-├── main.go              # Основной файл бэкенда
-├── go.mod              # Зависимости Go
-├── database.sql        # SQL скрипты для БД
-├── docker-compose.yml  # Docker конфигурация
-├── Dockerfile         # Docker образ
+├── cmd/
+│   └── server/
+│       └── main.go          # Точка входа
+├── internal/
+│   ├── config/
+│   │   └── config.go        # Конфигурация
+│   ├── database/
+│   │   ├── database.go      # Инициализация БД
+│   │   └── migrations/      # SQL миграции
+│   ├── handlers/
+│   │   ├── auth.go          # Аутентификация
+│   │   ├── staff.go         # CRUD для сотрудников
+│   │   └── routes.go        # Маршрутизация
+│   ├── models/
+│   │   ├── staff.go         # Модели данных
+│   │   └── user.go
+│   └── middleware/
+│       └── auth.go          # Middleware
+├── pkg/
+│   └── utils/               # Вспомогательные утилиты
+├── go.mod
+├── go.sum
+├── database.sql
+├── docker-compose.yml
+├── Dockerfile
 ├── static/
-│   └── index.html     # Фронтенд приложения
-└── README.md         # Документация
+│   ├── css/
+│   │   └── styles.css
+│   ├── js/
+│   │   └── app.js
+│   └── index.html
+└── README.md
 ```
 
 ## Быстрый старт

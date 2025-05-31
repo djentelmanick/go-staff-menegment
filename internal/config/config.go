@@ -1,18 +1,15 @@
-package main
+package config
 
 import (
 	"os"
-	"strconv"
 )
 
-// Config содержит конфигурацию приложения
 type Config struct {
 	Database DatabaseConfig
 	Server   ServerConfig
 	Auth     AuthConfig
 }
 
-// DatabaseConfig содержит настройки базы данных
 type DatabaseConfig struct {
 	Host     string
 	Port     string
@@ -22,21 +19,18 @@ type DatabaseConfig struct {
 	SSLMode  string
 }
 
-// ServerConfig содержит настройки сервера
 type ServerConfig struct {
 	Port       string
 	StaticDir  string
 	CORSOrigin string
 }
 
-// AuthConfig содержит настройки авторизации
 type AuthConfig struct {
 	DefaultLogin    string
 	DefaultPassword string
 	TokenPrefix     string
 }
 
-// LoadConfig загружает конфигурацию из переменных окружения или использует значения по умолчанию
 func LoadConfig() *Config {
 	return &Config{
 		Database: DatabaseConfig{
@@ -60,7 +54,6 @@ func LoadConfig() *Config {
 	}
 }
 
-// getEnv получает значение переменной окружения или возвращает значение по умолчанию
 func getEnv(key, defaultValue string) string {
 	if value, exists := os.LookupEnv(key); exists {
 		return value
@@ -68,25 +61,6 @@ func getEnv(key, defaultValue string) string {
 	return defaultValue
 }
 
-// getEnvAsInt получает значение переменной окружения как integer
-func getEnvAsInt(key string, defaultValue int) int {
-	valueStr := getEnv(key, "")
-	if value, err := strconv.Atoi(valueStr); err == nil {
-		return value
-	}
-	return defaultValue
-}
-
-// getEnvAsBool получает значение переменной окружения как boolean
-func getEnvAsBool(key string, defaultValue bool) bool {
-	valueStr := getEnv(key, "")
-	if value, err := strconv.ParseBool(valueStr); err == nil {
-		return value
-	}
-	return defaultValue
-}
-
-// GetDatabaseURL возвращает строку подключения к базе данных
 func (c *Config) GetDatabaseURL() string {
 	return "host=" + c.Database.Host +
 		" port=" + c.Database.Port +

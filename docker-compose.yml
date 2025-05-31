@@ -1,44 +1,30 @@
 version: '3.8'
 
 services:
-  # База данных PostgreSQL
-  postgres:
-    image: postgres:15-alpine
-    container_name: staff_db
-    environment:
-      POSTGRES_DB: staff_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./database.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - staff_network
-    restart: unless-stopped
-
-  # Приложение Go (опционально, если хотите запускать в Docker)
   app:
     build: .
-    container_name: staff_app
     ports:
       - "8080:8080"
     depends_on:
-      - postgres
+      - db
     environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: password
-      DB_NAME: staff_db
-    networks:
-      - staff_network
-    restart: unless-stopped
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=staff_db
+      - SERVER_PORT=8080
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=staff_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
 volumes:
   postgres_data:
-
-networks:
-  staff_network:
-    driver: bridge
