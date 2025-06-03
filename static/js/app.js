@@ -202,13 +202,13 @@ function editStaff(id) {
     if (!staff) return;
 
     currentStaffId = id;
-    document.getElementById('modalTitle').textContent = 'Редактировать сотрудника';
     document.getElementById('fullName').value = staff.full_name;
     document.getElementById('phone').value = staff.phone || '';
     document.getElementById('email').value = staff.email || '';
     document.getElementById('address').value = staff.address || '';
     
-    openModal('edit');
+    document.getElementById('modalTitle').textContent = 'Редактировать сотрудника';
+    modal.style.display = 'block';
 }
 
 async function deleteStaff(id) {
