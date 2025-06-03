@@ -211,9 +211,15 @@ function sortStaff(column) {
 
 function updateSortIndicators() {
     document.querySelectorAll('.sort-btn').forEach(btn => {
-        btn.classList.remove('sort-asc', 'sort-desc');
+        btn.className = 'sort-btn';
+        
         if (btn.dataset.column === currentSortColumn) {
             btn.classList.add(`sort-${sortDirection}`);
+            btn.style.borderColor = '#667eea';
+            btn.style.boxShadow = '0 0 0 1px #667eea';
+        } else {
+            btn.style.borderColor = '#ddd';
+            btn.style.boxShadow = 'none';
         }
     });
 }

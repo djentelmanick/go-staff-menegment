@@ -295,23 +295,41 @@ body {
     }
 }
 
-.sort-btn {
-    background: none;
-    border: none;
+.staff-table th .sort-btn {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    color: #222;
     cursor: pointer;
-    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    min-height: 22px;
+    padding: 2px;
     margin-left: 5px;
-    color: #666;
+    font-size: 12px;
+    transition: all 0.2s ease;
 }
 
-.sort-btn:hover {
-    color: #333;
+.staff-table th .sort-btn:hover {
+    background: #e0e0e0;
+    transform: scale(1.05);
 }
 
-.sort-asc::after {
-    content: ' ↑';
+.staff-table th .sort-asc::after {
+    content: '↑';
 }
 
-.sort-desc::after {
-    content: ' ↓';
+.staff-table th .sort-desc::after {
+    content: '↓';
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .staff-table th .sort-btn {
+        min-width: 18px;
+        min-height: 18px;
+        font-size: 10px;
+    }
 }
