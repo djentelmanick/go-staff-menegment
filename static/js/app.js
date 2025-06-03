@@ -3,6 +3,8 @@ let authToken = '';
 let currentStaffId = null;
 let allStaff = [];
 const API_BASE = '/api';
+let currentSortColumn = null;
+let sortDirection = 'asc'; // 'asc' или 'desc'
 
 // DOM Elements
 const loginSection = document.getElementById('loginSection');
@@ -35,6 +37,10 @@ function initApp() {
         showMainPanel();
         loadStaff();
     }
+    
+    document.querySelectorAll('.sort-btn').forEach(btn => {
+        btn.addEventListener('click', () => sortStaff(btn.dataset.column));
+    });
 }
 
 // Auth Functions
@@ -90,16 +96,30 @@ function showLoginSection() {
     mainPanel.style.display = 'none';
 }
 
+function disableBodyScroll() {
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+}
+
+function enableBodyScroll() {
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+}
+
 function openModal(action) {
     currentStaffId = null;
     document.getElementById('modalTitle').textContent = action === 'edit' ? 'Редактировать сотрудника' : 'Добавить сотрудника';
     staffForm.reset();
     modal.style.display = 'block';
+    disableBodyScroll();
 }
 
 function closeModal() {
     modal.style.display = 'none';
     currentStaffId = null;
+    enableBodyScroll();
 }
 
 function showNotification(message, type) {
@@ -154,6 +174,47 @@ function displayStaff(staff) {
             </td>
         `;
         staffTableBody.appendChild(row);
+    });
+    
+    updateSortIndicators();
+}
+
+function sortStaff(column) {
+    if (currentSortColumn === column) {
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+        currentSortColumn = column;
+        sortDirection = 'asc';
+    }
+
+    allStaff.sort((a, b) => {
+        let valA = a[column] || '';
+        let valB = b[column] || '';
+        
+        // Для числовых полей (ID)
+        if (column === 'id') {
+            valA = parseInt(valA);
+            valB = parseInt(valB);
+            return sortDirection === 'asc' ? valA - valB : valB - valA;
+        }
+        
+        valA = String(valA).toLowerCase();
+        valB = String(valB).toLowerCase();
+        
+        if (valA < valB) return sortDirection === 'asc' ? -1 : 1;
+        if (valA > valB) return sortDirection === 'asc' ? 1 : -1;
+        return 0;
+    });
+
+    displayStaff(allStaff);
+}
+
+function updateSortIndicators() {
+    document.querySelectorAll('.sort-btn').forEach(btn => {
+        btn.classList.remove('sort-asc', 'sort-desc');
+        if (btn.dataset.column === currentSortColumn) {
+            btn.classList.add(`sort-${sortDirection}`);
+        }
     });
 }
 
@@ -238,12 +299,19 @@ async function deleteStaff(id) {
 // Search Functionality
 function handleSearch(e) {
     const searchTerm = e.target.value.toLowerCase();
+    
+    if (searchTerm === '') {
+        displayStaff(allStaff);
+        return;
+    }
+
     const filteredStaff = allStaff.filter(staff => 
         staff.full_name.toLowerCase().includes(searchTerm) ||
         (staff.phone && staff.phone.toLowerCase().includes(searchTerm)) ||
         (staff.email && staff.email.toLowerCase().includes(searchTerm)) ||
         (staff.address && staff.address.toLowerCase().includes(searchTerm))
     );
+    
     displayStaff(filteredStaff);
 }
 
