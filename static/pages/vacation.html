@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отпуска | HR System</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/calendar.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h2>HR System</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/dashboard" class="nav-link">
+                        <span class="nav-icon">👥</span>
+                        <span class="nav-text">Сотрудники</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/groups" class="nav-link">
+                        <span class="nav-icon">👨‍👩‍👧‍👦</span>
+                        <span class="nav-text">Группы</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/benefits" class="nav-link">
+                        <span class="nav-icon">💰</span>
+                        <span class="nav-text">Надбавки</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="/vacation" class="nav-link">
+                        <span class="nav-icon">🏖️</span>
+                        <span class="nav-text">Отпуска</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="nav-footer">
+                <button class="btn btn-secondary" id="logoutBtn">Выйти</button>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="header">
+                <h1>Управление отпусками</h1>
+                <p>Планирование и учет отпусков сотрудников</p>
+            </div>
+
+            <div class="main-panel">
+                <div class="vacation-controls">
+                    <div class="view-options">
+                        <button class="btn btn-secondary active" data-view="calendar">Календарь</button>
+                        <button class="btn btn-secondary" data-view="list">Список</button>
+                    </div>
+                    <button class="btn btn-success" id="addVacationBtn">Добавить отпуск</button>
+                </div>
+
+                <div class="vacation-view active" id="calendar-view">
+                    <div class="calendar-header">
+                        <button id="prevMonth">&lt;</button>
+                        <h3 id="currentMonth">Июнь 2023</h3>
+                        <button id="nextMonth">&gt;</button>
+                    </div>
+                    <div class="calendar-grid">
+                        <!-- Календарь будет сгенерирован JavaScript -->
+                    </div>
+                </div>
+
+                <div class="vacation-view" id="list-view">
+                    <table class="vacation-table">
+                        <thead>
+                            <tr>
+                                <th>Сотрудник</th>
+                                <th>Тип отпуска</th>
+                                <th>Начало</th>
+                                <th>Конец</th>
+                                <th>Дней</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Список отпусков -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для отпусков -->
+    <div id="vacationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Добавить отпуск</h2>
+            <form id="vacationForm">
+                <div class="form-group">
+                    <label for="vacationEmployee">Сотрудник:</label>
+                    <select id="vacationEmployee" required>
+                        <!-- Список сотрудников -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="vacationType">Тип отпуска:</label>
+                    <select id="vacationType" required>
+                        <option value="annual">Очередной</option>
+                        <option value="sick">Больничный</option>
+                        <option value="unpaid">Без содержания</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startDate">Начало:</label>
+                        <input type="date" id="startDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">Конец:</label>
+                        <input type="date" id="endDate" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="vacationComment">Комментарий:</label>
+                    <textarea id="vacationComment"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary">Отмена</button>
+                    <button type="submit" class="btn btn-success">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/vacation.js"></script>
+</body>
+</html>

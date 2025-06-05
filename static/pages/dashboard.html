@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель управления</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Навигационное меню -->
+        <nav class="sidebar">
+            <div class="logo">
+                <h2>HR System</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="/dashboard" class="nav-link">
+                        <span class="nav-icon">👥</span>
+                        <span class="nav-text">Сотрудники</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/groups" class="nav-link">
+                        <span class="nav-icon">👨‍👩‍👧‍👦</span>
+                        <span class="nav-text">Группы</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/benefits" class="nav-link">
+                        <span class="nav-icon">💰</span>
+                        <span class="nav-text">Надбавки</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/vacation" class="nav-link">
+                        <span class="nav-icon">🏖️</span>
+                        <span class="nav-text">Отпуска</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="nav-footer">
+                <button class="btn btn-secondary" id="logoutBtn">Выйти</button>
+            </div>
+        </nav>
+
+        <!-- Основное содержимое -->
+        <div class="main-content">
+            <div class="header">
+                <h1>Система управления сотрудниками</h1>
+                <p>Управление персоналом компании</p>
+            </div>
+
+            <div class="main-panel">
+                <div class="controls">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Поиск сотрудников...">
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-success" id="addStaffBtn">Добавить сотрудника</button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="staff-table">
+                        <thead>
+                            <tr>
+                                <th>ID <button class="sort-btn" data-column="id">↑↓</button></th>
+                                <th>ФИО <button class="sort-btn" data-column="full_name">↑↓</button></th>
+                                <th>Телефон <button class="sort-btn" data-column="phone">↑↓</button></th>
+                                <th>Email <button class="sort-btn" data-column="email">↑↓</button></th>
+                                <th>Адрес <button class="sort-btn" data-column="address">↑↓</button></th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staffTableBody">
+                            <!-- Данные будут загружены через JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно -->
+    <div id="staffModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModalBtn">&times;</span>
+            <div class="modal-header">
+                <h2 id="modalTitle">Добавить сотрудника</h2>
+            </div>
+            <form id="staffForm">
+                <div class="form-group">
+                    <label for="fullName">ФИО:</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон:</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="address">Адрес:</label>
+                    <input type="text" id="address" name="address">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelModalBtn">Отмена</button>
+                    <button type="submit" class="btn btn-success">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

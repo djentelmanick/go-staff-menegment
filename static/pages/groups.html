@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Группы | HR System</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h2>HR System</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/dashboard" class="nav-link">
+                        <span class="nav-icon">👥</span>
+                        <span class="nav-text">Сотрудники</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="/groups" class="nav-link">
+                        <span class="nav-icon">👨‍👩‍👧‍👦</span>
+                        <span class="nav-text">Группы</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/benefits" class="nav-link">
+                        <span class="nav-icon">💰</span>
+                        <span class="nav-text">Надбавки</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/vacation" class="nav-link">
+                        <span class="nav-icon">🏖️</span>
+                        <span class="nav-text">Отпуска</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="nav-footer">
+                <button class="btn btn-secondary" id="logoutBtn">Выйти</button>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="header">
+                <h1>Управление группами</h1>
+                <p>Объединение сотрудников в рабочие группы</p>
+            </div>
+
+            <div class="main-panel">
+                <div class="controls">
+                    <div class="search-box">
+                        <input type="text" id="groupSearch" placeholder="Поиск групп...">
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-success" id="addGroupBtn">Создать группу</button>
+                    </div>
+                </div>
+
+                <div class="groups-container">
+                    <div class="groups-list">
+                        <div class="group-card">
+                            <div class="group-header">
+                                <h3>Отдел разработки</h3>
+                                <span class="group-meta">15 сотрудников</span>
+                            </div>
+                            <div class="group-actions">
+                                <button class="btn btn-sm btn-primary">Редактировать</button>
+                                <button class="btn btn-sm btn-danger">Удалить</button>
+                            </div>
+                        </div>
+                        <!-- Другие группы -->
+                    </div>
+                    
+                    <div class="group-details">
+                        <h3>Участники группы</h3>
+                        <div class="members-list">
+                            <!-- Список сотрудников в группе -->
+                        </div>
+                        <div class="add-members">
+                            <select id="staffSelect" multiple>
+                                <!-- Список всех сотрудников -->
+                            </select>
+                            <button class="btn btn-primary">Добавить в группу</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для создания группы -->
+    <div id="groupModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Создать новую группу</h2>
+            <form id="groupForm">
+                <div class="form-group">
+                    <label for="groupName">Название группы:</label>
+                    <input type="text" id="groupName" required>
+                </div>
+                <div class="form-group">
+                    <label for="groupDescription">Описание:</label>
+                    <textarea id="groupDescription"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary">Отмена</button>
+                    <button type="submit" class="btn btn-success">Создать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/groups.js"></script>
+</body>
+</html>

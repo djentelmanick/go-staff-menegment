@@ -1,15 +1,12 @@
 // Global Variables
-let authToken = '';
+let authToken = localStorage.getItem('authToken');
 let currentStaffId = null;
 let allStaff = [];
 const API_BASE = '/api';
 let currentSortColumn = null;
-let sortDirection = 'asc'; // 'asc' или 'desc'
+let sortDirection = 'asc';
 
 // DOM Elements
-const loginSection = document.getElementById('loginSection');
-const mainPanel = document.getElementById('mainPanel');
-const loginForm = document.getElementById('loginForm');
 const staffForm = document.getElementById('staffForm');
 const searchInput = document.getElementById('searchInput');
 const staffTableBody = document.getElementById('staffTableBody');
@@ -20,8 +17,7 @@ const addStaffBtn = document.getElementById('addStaffBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 
 // Event Listeners
-document.addEventListener('DOMContentLoaded', initApp);
-loginForm.addEventListener('submit', handleLogin);
+document.addEventListener('DOMContentLoaded', initDashboard);
 staffForm.addEventListener('submit', handleStaffSubmit);
 searchInput.addEventListener('input', handleSearch);
 closeModalBtn.addEventListener('click', closeModal);
@@ -29,110 +25,35 @@ cancelModalBtn.addEventListener('click', closeModal);
 addStaffBtn.addEventListener('click', () => openModal('add'));
 logoutBtn.addEventListener('click', logout);
 
-// Initialize Application
-function initApp() {
-    const savedToken = localStorage.getItem('authToken');
-    if (savedToken) {
-        authToken = savedToken;
-        showMainPanel();
-        loadStaff();
+// Initialize Dashboard
+function initDashboard() {
+    if (!authToken) {
+        window.location.href = '/login';
+        return;
     }
+    
+    loadStaff();
     
     document.querySelectorAll('.sort-btn').forEach(btn => {
         btn.addEventListener('click', () => sortStaff(btn.dataset.column));
     });
 }
 
-// Auth Functions
-async function handleLogin(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(e.target);
-    const loginData = {
-        login: formData.get('login'),
-        password: formData.get('password')
-    };
-
-    try {
-        const response = await fetch(`${API_BASE}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(loginData)
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-            authToken = result.token;
-            localStorage.setItem('authToken', authToken);
-            showNotification('Успешная авторизация!', 'success');
-            showMainPanel();
-            loadStaff();
-        } else {
-            showNotification(result.message, 'error');
-        }
-    } catch (error) {
-        showNotification('Ошибка подключения к серверу', 'error');
-    }
-}
-
 function logout() {
-    authToken = '';
     localStorage.removeItem('authToken');
-    showLoginSection();
-    loginForm.reset();
-}
-
-// UI Functions
-function showMainPanel() {
-    loginSection.style.display = 'none';
-    mainPanel.style.display = 'block';
-}
-
-function showLoginSection() {
-    loginSection.style.display = 'block';
-    mainPanel.style.display = 'none';
-}
-
-function disableBodyScroll() {
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
-}
-
-function enableBodyScroll() {
-    document.body.style.overflow = '';
-    document.body.style.position = '';
-    document.body.style.width = '';
+    window.location.href = '/login';
 }
 
 function openModal(action) {
     currentStaffId = null;
     document.getElementById('modalTitle').textContent = action === 'edit' ? 'Редактировать сотрудника' : 'Добавить сотрудника';
     staffForm.reset();
-    modal.style.display = 'block';
-    disableBodyScroll();
+    modal.style.display = 'flex';
 }
 
 function closeModal() {
     modal.style.display = 'none';
     currentStaffId = null;
-    enableBodyScroll();
-}
-
-function showNotification(message, type) {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => notification.classList.add('show'), 100);
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => document.body.removeChild(notification), 300);
-    }, 3000);
 }
 
 // Staff CRUD Operations
@@ -191,7 +112,6 @@ function sortStaff(column) {
         let valA = a[column] || '';
         let valB = b[column] || '';
         
-        // Для числовых полей (ID)
         if (column === 'id') {
             valA = parseInt(valA);
             valB = parseInt(valB);
@@ -275,7 +195,7 @@ function editStaff(id) {
     document.getElementById('address').value = staff.address || '';
     
     document.getElementById('modalTitle').textContent = 'Редактировать сотрудника';
-    modal.style.display = 'block';
+    modal.style.display = 'flex';
 }
 
 async function deleteStaff(id) {
@@ -327,6 +247,20 @@ window.addEventListener('click', (e) => {
         closeModal();
     }
 });
+
+// Notification function
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => notification.classList.add('show'), 100);
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => document.body.removeChild(notification), 300);
+    }, 3000);
+}
 
 // Global functions for inline event handlers
 window.editStaff = editStaff;

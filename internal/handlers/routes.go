@@ -28,7 +28,29 @@ func SetupRoutes(r *mux.Router, cfg *config.Config) {
     r.PathPrefix("/css/").Handler(http.StripPrefix("/css/", http.FileServer(http.Dir("./static/css"))))
     r.PathPrefix("/js/").Handler(http.StripPrefix("/js/", http.FileServer(http.Dir("./static/js"))))
     r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./static/assets"))))
+    r.PathPrefix("/pages/").Handler(http.StripPrefix("/pages/", http.FileServer(http.Dir("./static/pages"))))
     
+    // Страницы 
+    r.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+        http.ServeFile(w, r, "./static/pages/login.html")
+    }).Methods("GET")
+
+    r.HandleFunc("/dashboard", func(w http.ResponseWriter, r *http.Request) {
+        http.ServeFile(w, r, "./static/pages/dashboard.html")
+    }).Methods("GET")
+
+    r.HandleFunc("/groups", func(w http.ResponseWriter, r *http.Request) {
+        http.ServeFile(w, r, "./static/pages/groups.html")
+    }).Methods("GET")
+
+    r.HandleFunc("/benefits", func(w http.ResponseWriter, r *http.Request) {
+        http.ServeFile(w, r, "./static/pages/benefits.html")
+    }).Methods("GET")
+
+    r.HandleFunc("/vacation", func(w http.ResponseWriter, r *http.Request) {
+        http.ServeFile(w, r, "./static/pages/vacation.html")
+    }).Methods("GET")
+
     // Главная страница
     r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
         http.ServeFile(w, r, "./static/index.html")
