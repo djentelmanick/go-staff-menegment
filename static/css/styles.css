@@ -629,3 +629,15 @@ body {
         width: 100%;
     }
 }
+
+.group-description {
+    font-size: 0.9em;
+    color: #414141;    
+    margin-top: 4px; 
+    font-weight: 300;
+}
+
+.members-header {
+    color: black;
+    font-size: 1.3em
+}

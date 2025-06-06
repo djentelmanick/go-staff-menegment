@@ -14,7 +14,6 @@ const modal = document.getElementById('staffModal');
 const closeModalBtn = document.getElementById('closeModalBtn');
 const cancelModalBtn = document.getElementById('cancelModalBtn');
 const addStaffBtn = document.getElementById('addStaffBtn');
-const logoutBtn = document.getElementById('logoutBtn');
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', initDashboard);
@@ -23,7 +22,6 @@ searchInput.addEventListener('input', handleSearch);
 closeModalBtn.addEventListener('click', closeModal);
 cancelModalBtn.addEventListener('click', closeModal);
 addStaffBtn.addEventListener('click', () => openModal('add'));
-logoutBtn.addEventListener('click', logout);
 
 // Initialize Dashboard
 function initDashboard() {
@@ -39,10 +37,6 @@ function initDashboard() {
     });
 }
 
-function logout() {
-    localStorage.removeItem('authToken');
-    window.location.href = '/login';
-}
 
 function openModal(action) {
     currentStaffId = null;
@@ -66,7 +60,7 @@ async function loadStaff() {
         });
 
         if (response.status === 401) {
-            logout();
+            window.location.href = '/login';
             return;
         }
 

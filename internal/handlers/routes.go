@@ -24,6 +24,15 @@ func SetupRoutes(r *mux.Router, cfg *config.Config) {
     api.HandleFunc("/staff/{id}", middleware.AuthMiddleware(UpdateStaffHandler(db))).Methods("PUT")
     api.HandleFunc("/staff/{id}", middleware.AuthMiddleware(DeleteStaffHandler(db))).Methods("DELETE")
 
+    // CRUD для групп сотрудников
+    api.HandleFunc("/groups", middleware.AuthMiddleware(GetStaffGroups(db))).Methods("GET")
+    api.HandleFunc("/groups", middleware.AuthMiddleware(CreateStaffGroup(db))).Methods("POST")
+    api.HandleFunc("/groups/{id}", middleware.AuthMiddleware(UpdateStaffGroup(db))).Methods("PUT")
+    api.HandleFunc("/groups/{id}", middleware.AuthMiddleware(DeleteStaffGroup(db))).Methods("DELETE")
+    api.HandleFunc("/groups/{group_id}/members", middleware.AuthMiddleware(GetGroupMemebers(db))).Methods("GET")
+    api.HandleFunc("/groups/{group_id}/members", middleware.AuthMiddleware(AddMemebersToGroup(db))).Methods("POST")
+    api.HandleFunc("/groups/{group_id}/members/{staff_id}", middleware.AuthMiddleware(DeleteGroupMember(db))).Methods("DELETE")
+
     // Обслуживание статических файлов
     r.PathPrefix("/css/").Handler(http.StripPrefix("/css/", http.FileServer(http.Dir("./static/css"))))
     r.PathPrefix("/js/").Handler(http.StripPrefix("/js/", http.FileServer(http.Dir("./static/js"))))

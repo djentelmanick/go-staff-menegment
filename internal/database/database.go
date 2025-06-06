@@ -45,8 +45,26 @@ func createTables() {
 		address TEXT
 	)`
 
+	staff_groupsTable := `
+	CREATE TABLE IF NOT EXISTS staff_groups (
+		id SERIAL PRIMARY KEY,
+		name VARCHAR(100) NOT NULL,
+		description TEXT
+	)`
+
+	staff_to_groupsTable := `
+	CREATE TABLE IF NOT EXISTS staff_to_groups (
+		staff_id INT NOT NULL,
+		group_id INT NOT NULL,
+		PRIMARY KEY (staff_id, group_id),
+		FOREIGN KEY (staff_id) REFERENCES staff(id) ON DELETE CASCADE,
+		FOREIGN KEY (group_id) REFERENCES staff_groups(id) ON DELETE CASCADE
+	)`
+
 	db.Exec(userTable)
 	db.Exec(staffTable)
+	db.Exec(staff_groupsTable)
+	db.Exec(staff_to_groupsTable)
 }
 
 func createDefaultAdmin(cfg *config.Config) {
