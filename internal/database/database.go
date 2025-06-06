@@ -61,10 +61,13 @@ func createTables() {
 		FOREIGN KEY (group_id) REFERENCES staff_groups(id) ON DELETE CASCADE
 	)`
 
+	add_fiels_status_to_staff := `ALTER TABLE staff ADD COLUMN IF NOT EXISTS status VARCHAR(50)`
+
 	db.Exec(userTable)
 	db.Exec(staffTable)
 	db.Exec(staff_groupsTable)
 	db.Exec(staff_to_groupsTable)
+	db.Exec(add_fiels_status_to_staff)
 }
 
 func createDefaultAdmin(cfg *config.Config) {
