@@ -22,39 +22,68 @@
 ## Структура проекта
 
 ```
-staff-management/
-├── cmd/
-│   └── server/
-│       └── main.go          # Точка входа
-├── internal/
-│   ├── config/
-│   │   └── config.go        # Конфигурация
-│   ├── database/
-│   │   ├── database.go      # Инициализация БД
-│   │   └── migrations/      # SQL миграции
-│   ├── handlers/
-│   │   ├── auth.go          # Аутентификация
-│   │   ├── staff.go         # CRUD для сотрудников
-│   │   └── routes.go        # Маршрутизация
-│   ├── models/
-│   │   ├── staff.go         # Модели данных
-│   │   └── user.go
-│   └── middleware/
-│       └── auth.go          # Middleware
-├── pkg/
-│   └── utils/               # Вспомогательные утилиты
-├── go.mod
-├── go.sum
-├── database.sql
-├── docker-compose.yml
-├── Dockerfile
-├── static/
-│   ├── css/
-│   │   └── styles.css
-│   ├── js/
-│   │   └── app.js
-│   └── index.html
-└── README.md
+staff-management
+│   .env
+│   .gitignore
+│   database.sql
+│   docker-compose.yml
+│   Dockerfile
+│   go.mod
+│   go.sum
+│   README.md
+│
+├───cmd
+│   └───server
+│           main.go
+│
+├───internal
+│   ├───config
+│   │       config.go
+│   │
+│   ├───database
+│   │   │   database.go
+│   │   │
+│   │   └───migrations
+│   ├───handlers
+│   │       auth.go
+│   │       routes.go
+│   │       staff.go
+│   │       staff_groups.go
+│   │       staff_statuses.go
+│   │
+│   ├───middleware
+│   │       auth.go
+│   │
+│   └───models
+│           staff.go
+│           staff_groups.go
+│           staff_statuses.go
+│           user.go
+│
+├───pkg
+│   └───utils
+│           helpers.go
+│
+└───static
+    │   index.html
+    │
+    ├───css
+    │       styles.css
+    │
+    ├───js
+    │       auth.js
+    │       dashboard.js
+    │       groups.js
+    │       logout.js
+    │       statuses.js
+    │
+    └───pages
+            benefits.html
+            dashboard.html
+            groups.html
+            login.html
+            statuses.html
+            vacation.html
 ```
 
 ## Быстрый старт
@@ -68,14 +97,36 @@ staff-management/
 cd staff-management
 ```
 
-3. Запустите приложение:
-```bash
-docker-compose up -d
+3. Добавьте .env в корень проекта
+Пример .env
+```
+# Настройки базы данных
+DB_HOST=db
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=password
+DB_NAME=staff_db
+DB_SSLMODE=disable
+
+# Настройки сервера
+SERVER_PORT=8080
+STATIC_DIR=./static/
+CORS_ORIGIN=*
+
+# Настройки авторизации
+DEFAULT_LOGIN=admin
+DEFAULT_PASSWORD=admin123
+TOKEN_PREFIX=token_
 ```
 
-4. Приложение будет доступно по адресу: http://localhost:8080
+4. Запустите приложение:
+```bash
+docker-compose up --build -d --force-recreate
+```
 
-### Вариант 2: Локальная установка
+5. Приложение будет доступно по адресу: http://localhost:8080
+
+### Вариант 2: Локальная установка (для первой версии)
 
 #### Требования:
 - Go 1.21+
@@ -133,7 +184,7 @@ connStr := "user=postgres password=password dbname=staff_db sslmode=disable"
 - **Логин**: admin
 - **Пароль**: admin123
 
-## API Endpoints
+## API Endpoints (для первой версии)
 
 ### Авторизация
 - `POST /api/login` - Авторизация пользователя
@@ -188,6 +239,7 @@ connStr := "user=postgres password=password dbname=staff_db sslmode=disable"
 8. **Валидацию email** и телефонных номеров
 9. **Фильтрацию и сортировку**
 10. **Историю изменений**
+11. **Доделать страницы с отпуском и надбавками** 
 
 ## Отладка
 
